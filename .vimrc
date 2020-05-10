@@ -51,8 +51,7 @@ set fileencoding=utf-8 " the encoding written to file
 " hightlight whitespace chars
 highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
-set showbreak=↪\
-set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set listchars=tab:→\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 set list
 
 
