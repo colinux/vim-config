@@ -43,3 +43,4 @@ tmp/
 .netrwhist
 *~
 *.swp
+bundle/
