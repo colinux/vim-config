@@ -60,7 +60,6 @@ Plugin 'mileszs/ack.vim'
 Plugin 'preservim/nerdtree'
 
 " Linters
-" Plugin 'w0rp/ale'
 " Plugin 'eslint/eslint'
 " Plugin 'bbatsov/rubocop'
 
@@ -108,6 +107,7 @@ set hidden
 " Tabs as spaces
 set tabstop=2		 " Size of a hard tabstop (ts).
 set shiftwidth=2	" Size of an indentation (sw).
+set shiftround
 set expandtab		 " Always uses spaces instead of tab characters (et).
 set softtabstop=0 " Number of spaces a <Tab> counts for. When 0, featuer is off (sts).
 set autoindent		" Copy indent from current line when starting a new line.
@@ -232,7 +232,7 @@ match ErrorMsg '\s\+$'
 autocmd BufWritePre FileType eruby :%s/\s\+$//e
 
 "" Begin CoC recommendations
-let g:coc_global_extensions = ['coc-tsserver', 'coc-prettier', 'coc-eslint', 'coc-json', 'coc-html', 'coc-css', 'coc-yaml', 'coc-markdownlint']
+let g:coc_global_extensions = ['coc-tsserver', 'coc-prettier', 'coc-eslint', 'coc-json', 'coc-html', 'coc-css', 'coc-yaml', 'coc-markdownlint', 'coc-solargraph']
 
 "
 " JS files have prettier on save. Only 1 fixer can be applied by CoC, eslint
@@ -244,7 +244,7 @@ set cmdheight=1
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
-set updatetime=300
+set updatetime=4000
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
@@ -317,9 +317,9 @@ endfunction
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
-" Formatting selected code.
+" Formatting
 xmap <leader>f <Plug>(coc-format-selected)
-nmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format)
 
 augroup mygroup
   autocmd!
@@ -391,8 +391,8 @@ function! s:show_hover_doc()
   call timer_start(300, 'ShowDocIfNoDiagnostic')
 endfunction
 
-autocmd CursorHoldI * :call <SID>show_hover_doc()
-autocmd CursorHold * :call <SID>show_hover_doc()
+" autocmd CursorHoldI * :call <SID>show_hover_doc()
+" autocmd CursorHold * :call <SID>show_hover_doc()
 "" End CoC recommendations
 
 " Ctrlp
@@ -412,25 +412,6 @@ nnoremap <silent> <Leader>. :Files <C-r>=expand("%:h")<CR>/<CR>
 "   nnoremap <silent> <Leader>pj :Files app/javascript<CR>
 "   nnoremap <silent> <Leader>pt :Files test<CR>
 " endif
-
-" Ale
-let g:ale_fixers = {
-      \ 'javascript': ['prettier', 'eslint'],
-      \ 'javascriptreact': ['prettier', 'eslint'],
-      \ 'typescriptreact': ['prettier', 'eslint'],
-      \ 'typescript': ['prettier', 'eslint'],
-      \ 'json': ['prettier'],
-      \ 'vue': ['prettier', 'eslint'],
-      \ 'css': ['prettier'],
-      \ 'scss': ['prettier'],
-      \ 'ruby': ['rubocop']
-      \ }
-let g:ale_linter_aliases = {'vue': ['vue', 'javascript'], 'jsx': ['css', 'javascript']}
-let g:ale_linters = {'vue': ['eslint', 'vls'], 'jsx': ['stylelint', 'eslint']}
-let g:ale_fix_on_save = 1
-let g:ale_completion_tsserver_autoimport = 1
-" nmap <Leader>d <Plug>(ale_fix)
-
 
 " Word motions
 " NOTE: Meta (Alt) mapping is done by enabling iTerm right meta key behaving
