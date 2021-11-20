@@ -45,6 +45,7 @@ Plugin 'ap/vim-css-color'
 Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets' " snippets community
+Plugin 'chrisbra/unicode.vim'
 
 " Completion, transformation
 " Plugin 'ycm-core/YouCompleteMe'
@@ -80,7 +81,8 @@ augroup END
 set ruler		" Affiche la position actuelle du curseur
 set wrap		" Affiche les lignes trop longues sur plusieurs lignes
 set scrolloff=3		" Affichge un min de 3 lignes autour du curseur pour le scroll
-set cursorline	" Backround on current line
+" set cursorline	" Backround on current line
+set lazyredraw
 set foldmethod=syntax
 set foldlevelstart=99 " start file with all folds opened
 
@@ -148,9 +150,11 @@ endif
 
 
 if !has("nvim")
-	set guifont=Monaco:h12 " Neovim in terminal will ignore this option. Set terminal font instead"
+  set guifont=Monaco:h12 " Neovim in terminal will ignore this option. Set terminal font instead"
   set antialias
 endif
+
+set linespace=6 " must be the same as in gonevim
 
 set encoding=utf-8 " the encoding displayed
 set fileencoding=utf-8 " the encoding written to file
@@ -180,7 +184,7 @@ nnoremap <C-H> <C-W><C-H>
 
 " Open new split panes to right and bottom,
 " which feels more natural than Vim’s default:
-" set splitbelow
+set splitbelow
 set splitright
 
 " shortcuts
@@ -193,6 +197,10 @@ nnoremap <leader>b <C-^>
 
 " copy current file relative path to system clipboard
 nnoremap <leader>fi :let @+ = expand("%")<CR>
+
+vmap <Leader>y "+y
+nmap <Leader>P "+p
+vmap <Leader>P "+p
 
 
 " status bar
@@ -229,7 +237,7 @@ endif
 
 " Trim whitespaces (most of languages are already supported by coc fixers)
 match ErrorMsg '\s\+$'
-autocmd BufWritePre FileType eruby :%s/\s\+$//e
+autocmd BufWritePre FileType eruby,python :%s/\s\+$//e
 
 "" Begin CoC recommendations
 let g:coc_global_extensions = ['coc-tsserver', 'coc-prettier', 'coc-eslint', 'coc-json', 'coc-html', 'coc-css', 'coc-yaml', 'coc-markdownlint', 'coc-solargraph']
@@ -520,3 +528,17 @@ let g:UltiSnipsSnippetDirectories = [$HOME.'/.vim/custom-snippets']
 let g:vimade = {}
 let g:vimade.fadelevel = 0.6
 let g:vimade.checkinterval = 500
+
+" Unicode/Digraphs
+" Set new digraphs (hexa codes)
+function SetNewDigraphs()
+  DigraphNew md 2027
+endfunction
+autocmd BufEnter * call SetNewDigraphs()
+
+
+" Open url
+nmap gu :exec "!open <cWORD>"<cr>
+
+" latest node 17 is not installed
+let g:coc_node_path = '/usr/local/opt/node@16/bin/node'
